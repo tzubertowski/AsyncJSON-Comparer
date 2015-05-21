@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Asynchronous JSON comparer</title>
+		<meta name="description" content=" " />
+		<meta name="author" content="tzubertowski@gmail.com" />
+		<!-- Use maximum-scale and user-scalable at your own risk. It disables pinch/zoom. Think about usability/accessibility before including.-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<link rel="stylesheet" type="text/css" href=" ">
+
+    <!-- Bootflat - required styles -->
+    <link rel="stylesheet" href="bootflat/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootflat/bootflat/css/bootflat.css">
+    <link rel="stylesheet" href="css/s.css">
+	</head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top MINT">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">JSON comparer</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <div class="right-menu-button collapse navbar-collapse">
+                    <a href="https://github.com/tzubertowski?tab=repositories" class="btn btn-danger navbar-btn">Find me @GitHub</a>
+              </div>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <!-- Info panel -->
+    <div id="main-content">
+      <div class="row row-centered">
+        <div class="col-md-7 col-centered">
+          <div class="panel panel-default">
+            <div class="panel-heading" data-toggle="collapse" data-target="#infoCollapse">
+              <span class="glyphicon glyphicon-info-sign pull-right" ></span>Config info
+            </div>
+            <div id="infoCollapse" class="panel-body collapse">
+              <h5>Simple config</h5>
+              <p>Copy & paste endpoint's URL, set refresh timeout and run the comparer.</p>
+              <p>You can use the start/stop button to toggle asynchronous calls.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 col-centered">
+          <div class="panel panel-primary">
+            <div class="panel-heading">Setup</div>
+            <div class="panel-body">
+              <form class="form-inline">
+                <div class="input-group col-xs-5">
+                  <span class="input-group-addon" id="basic-addon1">URL</span>
+                  <input type="text" class="form-control" placeholder="Endpoint's/JSON url" aria-describedby="basic-addon1" required>
+                </div>
+                <div class="input-group col-xs-5">
+                  <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time"></span></span>
+                  <input type="number" min=0 class="form-control" placeholder="JSON refresh time (seconds)" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group pull-right">
+                  <label class="toggle">
+            			  <input type="checkbox">
+            			  <span class="handle"></span>
+            			</label>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="bootflat/js/jquery-1.10.1.min.js"></script>
+    <script src="bootflat/js/bootstrap.min.js"></script>
+
+    <!-- Bootflat's JS files.-->
+    <script src="bootflat/bootflat/js/icheck.min.js"></script>
+    <script src="bootflat/bootflat/js/jquery.fs.selecter.min.js"></script>
+    <script src="bootflat/bootflat/js/jquery.fs.stepper.min.js"></script>
+    <script src="js/formValidator.js"></script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+body {
+  background-color: rgb(241, 242, 246);
+}
+
+.right-menu-button {
+  margin-right: 20px;
+}
+
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    text-align:left;
+    margin-right:-4px;
+}
+
+.menu-aqua {
+  background-color: #4FC1E9;
+}
+
+.panel-heading .fa-chevron:after {
+    content: "\f078";
+}
+.panel-heading.collapsed .fa-chevron:after {
+    content: "\f054";
+}
+
+.navbar-bottom {
+  bottom: 0px;
+}
+
+.body {
+  margin: 0;
+  padding:0;
+}
