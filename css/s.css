@@ -48,6 +48,14 @@ body {
   color:white;
 }
 
+.whiteLink:link {
+  color:white;
+}
+
+.whiteLink:active {
+  color:white;
+}
+
 .timeline dl dt.comparisonChanged {
   background-color: #EC87C0;
 }

@@ -41,6 +41,25 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+
+		<div id="differencesModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">JSON differences</h4>
+            </div>
+            <div class="modal-body">
+                <p>Below are the json differences from two last pulls.</p>
+								<div id="jsonDifferencesWrapper"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- Info panel -->
     <div id="main-content">
       <div class="row row-centered">
@@ -91,6 +110,8 @@
     <div id="comparisonWrapperMain">
 
     </div>
+
+
 
     <!-- Dependencies -->
     <script src="js/jquery-2.1.4.min.js"></script>

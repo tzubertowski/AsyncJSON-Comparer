@@ -96,8 +96,7 @@ $(document).ready(function(){
                 var diffFile = findJsonDifferences(jsonData, firstLoopJSON);
                 diffFile = pretty.parse(diffFile);
                 $('#jsonDifferencesWrapper').html(diffFile);
-                console.log(diffFile);
-                console.log('WOLOLO');
+
                 renderComparison(comparisonMainWrapper);
                 shakeInterval = setInterval(shakeInfoBox,1000);
 
@@ -117,11 +116,12 @@ $(document).ready(function(){
                 var diffFile = findJsonDifferences(jsonData, firstLoopJSON);
                 diffFile = pretty.parse(diffFile);
                 $('#jsonDifferencesWrapper').html(diffFile);
-                console.log(diffFile);
-                console.log('WOLOLO');
-            } else {
-                console.log('No changes so far.');
+
+
+                renderComparison(comparisonMainWrapper);
+                shakeInterval = setInterval(shakeInfoBox,1000);
             }
+
             if((secondLoopJSON && jsonHaveChanged(jsonData, secondLoopJSON )) ) {
               console.log('gentoooo1');
               renderComparison(comparisonMainWrapper);
