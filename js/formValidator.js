@@ -18,6 +18,10 @@ $(document).ready(function(){
   // Notification options
   var audioNotification;
   var snd;
+  var shakeInterval;
+
+  // JSON differences
+  var differencesJSON;
 
   // customize all inputs (will search for checkboxes and radio buttons)
   $('flat-checkbox-1').iCheck();
@@ -84,23 +88,45 @@ $(document).ready(function(){
                 if(audioNotification) {
                   snd.play();
                 }
+                console.log('JSON changed since last pull.');
+                console.log('Generating styled diff.');
                 secondLoopJSON = jsonData;
                 secondLoopHour = time;
+
+                var diffFile = findJsonDifferences(jsonData, firstLoopJSON);
+                diffFile = pretty.parse(diffFile);
+                $('#jsonDifferencesWrapper').html(diffFile);
+                console.log(diffFile);
+                console.log('WOLOLO');
+                renderComparison(comparisonMainWrapper);
+                shakeInterval = setInterval(shakeInfoBox,1000);
+
+                return true;
             } else if ( secondLoopJSON && jsonHaveChanged(jsonData, secondLoopJSON ) ){
                 if(audioNotification) {
                   snd.play();
                 }
                 console.log('JSON changed since last pull.');
+                console.log('Generating styled diff.');
                 firstLoopJSON = secondLoopJSON;
                 firstLoopHour = secondLoopHour;
 
                 secondLoopJSON = jsonData;
                 secondLoopHour = time;
-            } else {
-                console.log('Nuffin changed man');
-            }
 
-            renderComparison(comparisonMainWrapper);
+                var diffFile = findJsonDifferences(jsonData, firstLoopJSON);
+                diffFile = pretty.parse(diffFile);
+                $('#jsonDifferencesWrapper').html(diffFile);
+                console.log(diffFile);
+                console.log('WOLOLO');
+            } else {
+                console.log('No changes so far.');
+            }
+            if((secondLoopJSON && jsonHaveChanged(jsonData, secondLoopJSON )) ) {
+              console.log('gentoooo1');
+              renderComparison(comparisonMainWrapper);
+              shakeInterval = setInterval(shakeInfoBox,1000);
+            }
         } else {
           renderAlert(contentWrapper, 'danger', 'Error', 'No JSON or Invalid JSON file on the given endpoint. Please try again with a valid one.', true);
         }
@@ -111,9 +137,14 @@ $(document).ready(function(){
     if(target.html() !== '') {
       target.html('');
     }
+    if(differencesJSON) {
+        var comparisonLink = '<dt class="comparisonChanged"><a id="modalComparison" class="whiteLink" data-toggle="modal" href="#differencesModal">JSON changed!<br/>Click for list of changes.</a></dt>';
+    } else {
+        var comparisonLink = '<dt>Comparison.<br/> No changes.</dt>';
+    }
+
     var jsonComparisonHtml = '<div id="jsonComparisonWrapper" class="col-md-12">' +
-    '<div class="timeline">'+
-    '<dl><dt>Comparison</dt>';
+    '<div class="timeline"><dl>'+ comparisonLink;
     var firstJson = '';
     var secondJson = '';
     if(firstLoopJSON) {
@@ -149,4 +180,79 @@ $(document).ready(function(){
     return true;
   }
 
+  var findJsonDifferences = function(objectA, objectB) {
+      var propertyChanges = [];
+      var objectGraphPath = ["this"];
+      (function(a, b) {
+        if(a.constructor == Array) {
+           // BIG assumptions here: That both arrays are same length, that
+           // the members of those arrays are _essentially_ the same, and
+           // that those array members are in the same order...
+           for(var i = 0; i < a.length; i++) {
+              objectGraphPath.push("[" + i.toString() + "]");
+              arguments.callee(a[i], b[i]);
+              objectGraphPath.pop();
+           }
+        } else if(a.constructor == Object || (a.constructor != Number &&
+                  a.constructor != String && a.constructor != Date &&
+                  a.constructor != RegExp && a.constructor != Function &&
+                  a.constructor != Boolean)) {
+           // we can safely assume that the objects have the
+           // same property lists, else why compare them?
+           for(var property in a) {
+              objectGraphPath.push(("." + property));
+              if(a[property].constructor != Function) {
+                 arguments.callee(a[property], b[property]);
+              }
+              objectGraphPath.pop();
+           }
+        } else if(a.constructor != Function) { // filter out functions
+           if(a != b) {
+              propertyChanges.push({ "Property": objectGraphPath.join(""), "Old JSON": a, "New JSON": b });
+           }
+        }
+      })(objectA, objectB);
+
+      differencesJSON = propertyChanges;
+      return propertyChanges;
+  }
+
+  var shakeInfoBox = function () {
+    $('#modalComparison').shake();
+    $('#modalComparison').click(function(){
+        clearInterval(shakeInterval);
+    });
+  }
 });
+
+
+(function ($) {
+    $.fn.shake = function (options) {
+        // defaults
+        var settings = {
+            'shakes': 2,
+            'distance': 10,
+            'duration': 400
+        };
+        // merge options
+        if (options) {
+            $.extend(settings, options);
+        }
+        // make it so
+        var pos;
+        return this.each(function () {
+            $this = $(this);
+            // position if necessary
+            pos = $this.css('position');
+            if (!pos || pos === 'static') {
+                $this.css('position', 'relative');
+            }
+            // shake it
+            for (var x = 1; x <= settings.shakes; x++) {
+                $this.animate({ left: settings.distance * -1 }, (settings.duration / settings.shakes) / 4)
+                    .animate({ left: settings.distance }, (settings.duration / settings.shakes) / 2)
+                    .animate({ left: 0 }, (settings.duration / settings.shakes) / 4);
+            }
+        });
+    };
+}(jQuery));

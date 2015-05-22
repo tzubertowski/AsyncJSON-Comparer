@@ -35,3 +35,19 @@ body {
   margin: 0;
   padding:0;
 }
+
+.whiteLink {
+  color:white;
+}
+
+.whiteLink:hover {
+  color:white;
+}
+
+.whiteLink:visited {
+  color:white;
+}
+
+.timeline dl dt.comparisonChanged {
+  background-color: #EC87C0;
+}
