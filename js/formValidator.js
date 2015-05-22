@@ -15,6 +15,13 @@ $(document).ready(function(){
 
   var asyncLoopObject;
 
+  // Notification options
+  var audioNotification;
+  var snd;
+
+  // customize all inputs (will search for checkboxes and radio buttons)
+  $('flat-checkbox-1').iCheck();
+
   $('#toggleAjax').click(function(e){
       urlText = urlFormField.val();
       refreshVal = refreshFormField.val();
@@ -27,6 +34,11 @@ $(document).ready(function(){
       if(refreshVal == '') {
         refreshFormField.val('60');
         refreshVal = refreshFormField.val();
+      }
+
+      if( $('#enabledNotification').prop('checked') ) {
+        audioNotification = true;
+        snd = new Audio("sounds/Europa.ogg"); // buffers automatically when created
       }
 
       fetchJsonData(urlText);
@@ -66,22 +78,24 @@ $(document).ready(function(){
     jsonValidUrl = urlFormField.val();
       $.getJSON( jsonValidUrl , function(jsonData) {
         if(jsonData) {
-            var snd = new Audio("sounds/Europa.ogg"); // buffers automatically when created
             var dt = new Date();
             var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
             if(!secondLoopJSON && jsonHaveChanged(jsonData, firstLoopJSON) ) {
-                console.log('Pierwsze wstawienie prawej kolumny');
-                snd.play();
+                if(audioNotification) {
+                  snd.play();
+                }
                 secondLoopJSON = jsonData;
                 secondLoopHour = time;
             } else if ( secondLoopJSON && jsonHaveChanged(jsonData, secondLoopJSON ) ){
-                    snd.play();
-                    console.log('JSON changed since last pull.');
-                    firstLoopJSON = secondLoopJSON;
-                    firstLoopHour = secondLoopHour;
+                if(audioNotification) {
+                  snd.play();
+                }
+                console.log('JSON changed since last pull.');
+                firstLoopJSON = secondLoopJSON;
+                firstLoopHour = secondLoopHour;
 
-                    secondLoopJSON = jsonData;
-                    secondLoopHour = time;
+                secondLoopJSON = jsonData;
+                secondLoopHour = time;
             } else {
                 console.log('Nuffin changed man');
             }
